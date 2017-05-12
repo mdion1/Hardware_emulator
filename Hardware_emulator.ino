@@ -2,10 +2,12 @@
 #include "ComPacket.h"
 
 Potentiostat pstat;
+DACBuffer_t DACBuf1;
+ADCBuffer_t ADCBuf1;
 
 void setup() {
 	Serial.begin(9600);
-
+	pstat.init(&DACBuf1, &DACBuf1, &ADCBuf1, &ADCBuf1);
 }
 
 void loop() {
@@ -21,7 +23,7 @@ void loop() {
 				case HANDSHAKE:
 				{
 					FramedComPacketHeader_t transmission;
-					transmission.returnCode = HANDSHAKE;
+					transmission.returnCode = HANDSHAKE_RESPONSE;
 					Serial.write((uint8_t *)&transmission, sizeof(transmission));
 				}
 					break;
@@ -39,12 +41,12 @@ void loop() {
 					break;
 				case DOWNLOAD_EXPERIMENT:
 				{
-					Serial.readBytes((uint8_t *)&pstat.experiment.nodes, packet.dataLength);
+					Serial.readBytes((uint8_t *)pstat.getExperimentNodesPointer(), packet.dataLength);
 				}
 					break;
 				case RUN_EXPERIMENT:
 				{
-					pstat.runExperiment();
+					pstat.runExperiment(getNow());
 				}
 				break;
 				case SET_OPMODE:
@@ -73,21 +75,10 @@ void loop() {
 
 	if (pstat.status == DC_NODE_ACTIVE)
 	{
-		if (pstat.updateDummyStates() == ADCDATA_READY)
+		pstat.updateDummyStates(getNow());
+		if (pstat.isCurrentNodeFinished(getNow()))
 		{
-			FramedComPacketHeader_t transmission;
-			transmission.returnCode = ADCDC_DATA;
-			transmission.dataLength = 4 * 2 + 1 + 8;
-			uint8_t data[4 * 2 + 1 + 8];
-			memcpy(data, (uint8_t *) &pstat.ADCdc_data_now, 4 * 2);
-			memcpy(&data[4 * 2], (uint8_t *)&pstat.currentRange, 1);
-			memcpy(&data[4 * 2 + 1], (uint8_t *)&pstat.timestamp, 8);
-			Serial.write((uint8_t *)&transmission, sizeof(transmission));
-		}
-		pstat.updateDummyVCtrl();
-		if (pstat.isCurrentNodeFinished())
-		{
-			status_t stat = pstat.initNextNode();
+			InstrStatus_t stat = pstat.initNextNode(getNow());
 			if (stat == EXPERIMENT_COMPLETED)
 			{
 				FramedComPacketHeader_t transmission;
@@ -96,5 +87,10 @@ void loop() {
 			}
 		}
 	}
+	//TODO: poll overcurrent, overvoltage
+}
 
+uint64_t getNow()
+{
+	return 100 * (millis() * 1000 + micros() % 1000);
 }

@@ -6,6 +6,8 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+
 	/* Definitions */
 #define ABS(x) (x > 0 ? x : -x)
 #define MAX(x, y) (x > y ? x : y)
@@ -37,7 +39,27 @@ typedef enum {HANDSHAKE = 65,
         RUN_FRA,
 		DOWNLOAD_EXPERIMENT,
 		RUN_EXPERIMENT
-}USBcommand_t;
+}PCcommand_t;
+
+typedef enum {
+	CHANNEL_OK,
+	ECE_OVERVOLTAGE_WARNING,
+	EWE_OVERVOLTAGE_WARNING,
+	REF_OVERVOLTAGE_WARNING,
+	OVERCURRENT_WARNING,
+	UNDERCURRENT_WARNING,
+	HANDSHAKE_RESPONSE = 65,
+	ADCDC_DATA,
+	ADCAC_DATA,
+	CAL_DATA,
+	ERROR_MSG,
+	STATUS_DATA,
+	EXPERIMENT_COMPLETE
+}Notifications_t;
+
+typedef enum {
+	INITIALIZING, IDLE, OCP, DC_NODE_ACTIVE, AC_NODE_ACTIVE, CHANNEL_ERROR, EXPERIMENT_COMPLETED
+}InstrStatus_t;
 
 typedef enum {USB_STATE_DEVICE_LAYER_UNOPENED,
         USB_STATE_UNPOWERED,
@@ -57,27 +79,12 @@ typedef enum {USBSERIAL_WRITE_STATUS_COMPLETE,
         USBSERIAL_WRITE_STATUS_ERROR
 }USBSerialWriteState_t;
 
-typedef enum { INITIALIZING, IDLE, OCP, DC_NODE_ACTIVE, AC_NODE_ACTIVE, CHANNEL_ERROR, EXPERIMENT_COMPLETED
-}status_t;
-
-typedef enum {
-		HANDSHAKE = 65,
-        ADCDC_DATA = 0,
-        ADCAC_DATA,
-        CAL_DATA,
-        ERROR_MSG,
-        STATUS_DATA,
-		EXPERIMENT_COMPLETE
-}returnCodes_t;
-
-typedef enum {POTENTIOSTATIC, GALVANOSTATIC
-}opmode_t;
+typedef enum {POTENTIOSTATIC, GALVANOSTATIC}opmode_t;
 
 typedef enum {OFF = -1, RANGE0, RANGE1, RANGE2, RANGE3, RANGE4, RANGE5, RANGE6, RANGE7
 }currentRange_t;
 
-typedef enum {CURRENT_AUTORANGE, CURRENT_MANUAL_RANGE    
-}currentRangeMode_t;
+typedef enum {CURRENT_AUTORANGE, CURRENT_MANUAL_RANGE}currentRangeMode_t;
 
 typedef enum{DCNODE_OCP, //TODO: add potentiostatic vs galvanostatic distinctions
         DCNODE_SWEEP,
@@ -106,14 +113,6 @@ typedef enum{
         WAVEGENCLK_1_5625MHZ = 16,
         WAVEGENCLK_0_78125MHZ = 32
     }WAVEGENCLK_SPEED_t; 
-    
-typedef enum{CHANNEL_OK,
-        ECE_OVERVOLTAGE_WARNING,
-        EWE_OVERVOLTAGE_WARNING,
-        REF_OVERVOLTAGE_WARNING,
-        OVERCURRENT_WARNING,
-        UNDERCURRENT_WARNING
-}channelWarnings_t;
     
 typedef enum{SPI_MODE0 = 0, SPI_MODE1, SPI_MODE2, SPI_MODE3}SPI_MODE_t;
 typedef enum{SPI_50M_BAUD, SPI_25M_BAUD, SPI_10M_BAUD, SPI_5M_BAUD, SPI_1M_BAUD}SPI_BAUDRATE_t;

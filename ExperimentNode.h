@@ -81,6 +81,7 @@ typedef struct
             int16_t VInitHeight;
             uint32_t t_pulse;
             uint32_t t_period;
+			bool evenOdd;
         }DCPulseNormal;
         
         /* DCNode_DiffPulse */
@@ -92,6 +93,7 @@ typedef struct
             int16_t VEnd;
             uint32_t t_pulse;
             uint32_t t_period;
+			bool evenOdd;
         }DCPulseDiff;
         
         /* DCNode_SqrWave */
@@ -101,6 +103,7 @@ typedef struct
             int16_t VCenter;
             int16_t VAmp;
             uint32_t t_period;
+			bool evenOdd;
         }DCSqrWave;
         
         /* DCNode_SineWave */

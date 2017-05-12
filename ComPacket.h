@@ -3,7 +3,7 @@
 
 typedef struct
 {
-	USBcommand_t command;
+	PCcommand_t command;
 	uint8_t channelNum;
 	uint16_t dataLength;
 }FramelessComPacketHeader_t;
@@ -11,7 +11,7 @@ typedef struct
 typedef struct
 {
 	uint16_t frame = 0xFFEE;
-	returnCodes_t returnCode;
+	Notifications_t returnCode;
 	uint8_t channelNum;
 	uint16_t dataLength;
 }FramedComPacketHeader_t;
