@@ -25,7 +25,7 @@ extern "C" {
 #define FRAMING_LBYTE 0xEE
 #define FRAMING_WORD 0xFFEE
 
-	const uint8_t timeDivFactors[] = {1, 2, 4, 8, 16, 32, 64, 256};
+	const uint16_t timeDivFactors[] = {1, 2, 4, 8, 16, 32, 64, 256};
     
     /* Typedef enums*/
 typedef enum {HANDSHAKE = 65,

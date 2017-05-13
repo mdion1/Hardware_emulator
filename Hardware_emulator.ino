@@ -17,14 +17,14 @@ void loop() {
 		{
 			Serial.read();				//get FRAMING_LBYTE out of the queue
 			FramelessComPacketHeader_t packet;
-			Serial.readBytes((uint8_t *)&packet, sizeof(packet));
+			Serial.readBytes((char *)&packet, sizeof(packet));
 			switch (packet.command)
 			{
 				case HANDSHAKE:
 				{
 					FramedComPacketHeader_t transmission;
 					transmission.returnCode = HANDSHAKE_RESPONSE;
-					Serial.write((uint8_t *)&transmission, sizeof(transmission));
+					Serial.write((char *)&transmission, sizeof(transmission));
 				}
 					break;
 				case REPORT_STATUS:
@@ -35,13 +35,13 @@ void loop() {
 					FramedComPacketHeader_t transmission;
 					transmission.returnCode = CAL_DATA;
 					transmission.dataLength = sizeof(pstat.cal);
-					Serial.write((uint8_t *)&transmission, sizeof(transmission));
-					Serial.write((uint8_t *)&pstat.cal, sizeof(pstat.cal));
+					Serial.write((char *)&transmission, sizeof(transmission));
+					Serial.write((char *)&pstat.cal, sizeof(pstat.cal));
 				}
 					break;
 				case DOWNLOAD_EXPERIMENT:
 				{
-					Serial.readBytes((uint8_t *)pstat.getExperimentNodesPointer(), packet.dataLength);
+					Serial.readBytes((char *)pstat.getExperimentNodesPointer(), packet.dataLength);
 				}
 					break;
 				case RUN_EXPERIMENT:
@@ -83,7 +83,7 @@ void loop() {
 			{
 				FramedComPacketHeader_t transmission;
 				transmission.returnCode = EXPERIMENT_COMPLETE;
-				Serial.write((uint8_t *)&transmission, sizeof(transmission));
+				Serial.write((char *)&transmission, sizeof(transmission));
 			}
 		}
 	}
