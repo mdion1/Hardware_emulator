@@ -24,6 +24,7 @@ void loop() {
 				{
 					FramedComPacketHeader_t transmission;
 					transmission.returnCode = HANDSHAKE_RESPONSE;
+					transmission.channelNum = pstat.channelNum;
 					Serial.write((char *)&transmission, sizeof(transmission));
 				}
 					break;
@@ -33,6 +34,7 @@ void loop() {
 				case SEND_CAL_DATA:
 				{
 					FramedComPacketHeader_t transmission;
+					transmission.channelNum = pstat.channelNum;
 					transmission.returnCode = CAL_DATA;
 					transmission.dataLength = sizeof(pstat.cal);
 					Serial.write((char *)&transmission, sizeof(transmission));
@@ -82,6 +84,7 @@ void loop() {
 			if (stat == EXPERIMENT_COMPLETED)
 			{
 				FramedComPacketHeader_t transmission;
+				transmission.channelNum = pstat.channelNum;
 				transmission.returnCode = EXPERIMENT_COMPLETE;
 				Serial.write((char *)&transmission, sizeof(transmission));
 			}
