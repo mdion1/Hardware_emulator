@@ -11,7 +11,7 @@
 #include "ExperimentNode.h"
 #include "DAC_ADC_Buffer_types.h"
 
-#define MAX_NODES 128
+#define MAX_NODES 32
 
 class Experiment_t {
 public:

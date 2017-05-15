@@ -17,12 +17,12 @@ typedef struct
     float m_eceP = 1;     //Ece bin-to-V slope, x > 0
     float m_eceN = 1;     //Ece bin-to-V slope, x < 0
     float b_ece = 0;      //Ece bin-to-V intercept
-	float m_iP[8] = { 1, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6, 1e-7 };    //Current bin-to-mA slope, x > 0
-	float m_iN[8] = { 1, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6, 1e-7 };    //Current bin-to-mA slope, x < 0
+	float m_iP[8] = { 1, (float)1e-1, (float)1e-2, (float)1e-3, (float)1e-4, (float)1e-5, (float)1e-6, (float)1e-7 };    //Current bin-to-mA slope, x > 0
+	float m_iN[8] = { 1, (float)1e-1, (float)1e-2, (float)1e-3, (float)1e-4, (float)1e-5, (float)1e-6, (float)1e-7 };    //Current bin-to-mA slope, x < 0
     float b_i[8];     //Current bin-to-mA intercept
     float m_DACac;    //DACac bin-to-mVAC slope
-}cal_t;
+} cal_t;
 
-#pragma(pop)
+#pragma pack(pop)
 
 #endif

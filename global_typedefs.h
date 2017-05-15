@@ -17,8 +17,8 @@ extern "C" {
 #define OVERCURRENT_MAX_COUNT 1000
 #define UNDERCURRENT_MAX_COUNT 1000
 #define OVERVOLTAGE_LIMIT 32700
-#define DACBUF_SIZE 512 
-#define ADCBUF_SIZE 256
+#define DACBUF_SIZE 128 
+#define ADCBUF_SIZE 128
 
 #define HEADER_LENGTH 5
 #define FRAMING_UBYTE 0xFF
@@ -28,20 +28,21 @@ extern "C" {
 	const uint16_t timeDivFactors[] = {1, 2, 4, 8, 16, 32, 64, 256};
     
     /* Typedef enums*/
-typedef enum {HANDSHAKE = 65,
-        REPORT_STATUS,
-        SEND_CAL_DATA,
-        SET_OPMODE,
-        MANUAL_DC_SAMPLE,
-        V_SETPOINT,
-        I_SETPOINT,
-        SETUP_AC_SAMPLING,
-        RUN_FRA,
-		DOWNLOAD_EXPERIMENT,
-		RUN_EXPERIMENT
+typedef enum : unsigned char {
+	HANDSHAKE = 65,
+    REPORT_STATUS,
+    SEND_CAL_DATA,
+    SET_OPMODE,
+    MANUAL_DC_SAMPLE,
+    V_SETPOINT,
+    I_SETPOINT,
+    SETUP_AC_SAMPLING,
+    RUN_FRA,
+	DOWNLOAD_EXPERIMENT,
+	RUN_EXPERIMENT
 }PCcommand_t;
 
-typedef enum {
+typedef enum : unsigned char {
 	CHANNEL_OK,
 	ECE_OVERVOLTAGE_WARNING,
 	EWE_OVERVOLTAGE_WARNING,
