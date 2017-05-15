@@ -1,6 +1,8 @@
 #ifndef COM_PACKET_H
 #define COM_PACKET_H
 
+#pragma pack(push, 4)
+
 typedef struct
 {
 	PCcommand_t command;
@@ -15,5 +17,7 @@ typedef struct
 	uint8_t channelNum;
 	uint16_t dataLength;
 }FramedComPacketHeader_t;
+
+#pragma(pop)
 
 #endif
