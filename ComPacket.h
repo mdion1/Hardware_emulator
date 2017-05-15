@@ -18,6 +18,6 @@ typedef struct
 	uint16_t dataLength;
 }FramedComPacketHeader_t;
 
-#pragma(pop)
+#pragma pack(pop)
 
 #endif

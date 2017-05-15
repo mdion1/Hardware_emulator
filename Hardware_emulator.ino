@@ -11,11 +11,16 @@ void setup() {
 }
 
 void loop() {
+  /*
+  if (Serial.available()) {
+    Serial.write(Serial.read());
+  }
+  /*/
 	if (Serial.available() >= HEADER_LENGTH)
 	{
-		if (Serial.read() == FRAMING_UBYTE && Serial.peek() == FRAMING_LBYTE)
+		if (Serial.read() == FRAMING_LBYTE && Serial.peek() == FRAMING_UBYTE)
 		{
-			Serial.read();				//get FRAMING_LBYTE out of the queue
+			Serial.read();				//get FRAMING_UBYTE out of the queue
 			FramelessComPacketHeader_t packet;
 			Serial.readBytes((char *)&packet, sizeof(packet));
 			switch (packet.command)
@@ -25,6 +30,7 @@ void loop() {
 					FramedComPacketHeader_t transmission;
 					transmission.returnCode = HANDSHAKE_RESPONSE;
 					transmission.channelNum = pstat.channelNum;
+          transmission.dataLength = 0;
 					Serial.write((char *)&transmission, sizeof(transmission));
 				}
 					break;
@@ -90,6 +96,7 @@ void loop() {
 			}
 		}
 	}
+ //*/
 	//TODO: poll overcurrent, overvoltage
 }
 
