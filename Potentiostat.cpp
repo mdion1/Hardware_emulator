@@ -48,6 +48,7 @@ void Potentiostat::updateDummyStates(uint64_t tNow)
 			ADCdc_data_now.ece = -DCVctrl / 2;
 
 			/* Send transmission */
+      timestamp = tNow;
 			FramedComPacketHeader_t transmission;
 			transmission.channelNum = channelNum;
 			transmission.returnCode = ADCDC_DATA;
@@ -57,6 +58,7 @@ void Potentiostat::updateDummyStates(uint64_t tNow)
 			memcpy(&data[4 * 2], (uint8_t *)&currentRange, 1);
 			memcpy(&data[4 * 2 + 1], (uint8_t *)&timestamp, 8);
 			Serial.write((uint8_t *)&transmission, sizeof(transmission));
+      Serial.write(data, sizeof(data));
 		}
 
 		if (ADCdcActiveBuf->dataIndex >= pNode->samplingParams.DACMultiplier)
