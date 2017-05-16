@@ -13,6 +13,7 @@ void * Potentiostat::getExperimentNodesPointer()
 void Potentiostat::runExperiment(uint64_t tNow)
 {
 	experiment.initNode(0, tNow);
+	status = DC_NODE_ACTIVE;
 }
 
 void Potentiostat::init(DACBuffer_t * DACBuf1, DACBuffer_t * DACBuf2, ADCBuffer_t * ADCBuf1, ADCBuffer_t * ADCBuf2)
@@ -25,7 +26,7 @@ void Potentiostat::init(DACBuffer_t * DACBuf1, DACBuffer_t * DACBuf2, ADCBuffer_
 
 InstrStatus_t Potentiostat::initNextNode(uint64_t tNow)
 {
-	return (experiment.initNode(experiment.SeekNextNode(), tNow));
+	return (status = experiment.initNode(experiment.SeekNextNode(), tNow));
 }
 
 void Potentiostat::updateDummyStates(uint64_t tNow)
