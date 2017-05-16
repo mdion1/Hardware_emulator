@@ -1,7 +1,7 @@
 #ifndef CAL_H
 #define CAL_H
 
-#pragma pack(push, 4)
+#pragma pack(push, 1)
 
 typedef struct
 {

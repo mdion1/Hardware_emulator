@@ -1,7 +1,7 @@
 #ifndef COM_PACKET_H
 #define COM_PACKET_H
 
-#pragma pack(push, 4)
+#pragma pack(push, 1)
 
 typedef struct
 {

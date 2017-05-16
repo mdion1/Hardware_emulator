@@ -10,7 +10,7 @@ extern "C" {
 #include <stdbool.h>
 #include "global_typedefs.h"
 
-#pragma pack(push, 4)
+#pragma pack(push, 1)
 
 typedef struct
 {

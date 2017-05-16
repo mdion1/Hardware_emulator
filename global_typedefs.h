@@ -84,22 +84,23 @@ typedef enum {USBSERIAL_WRITE_STATUS_COMPLETE,
 
 typedef enum {POTENTIOSTATIC, GALVANOSTATIC}opmode_t;
 
-typedef enum {OFF = -1, RANGE0, RANGE1, RANGE2, RANGE3, RANGE4, RANGE5, RANGE6, RANGE7
+typedef enum : int8_t {OFF = -1, RANGE0, RANGE1, RANGE2, RANGE3, RANGE4, RANGE5, RANGE6, RANGE7
 }currentRange_t;
 
 typedef enum {CURRENT_AUTORANGE, CURRENT_MANUAL_RANGE}currentRangeMode_t;
 
-typedef enum{DCNODE_OCP, //TODO: add potentiostatic vs galvanostatic distinctions
-        DCNODE_SWEEP,
-        DCNODE_POINT,
-        DCNODE_NORMALPULSE,
-        DCNODE_DIFFPULSE,
-        DCNODE_SQRWAVE,
-        DCNODE_SINEWAVE,
-        ACNODE_POTENTIOSTATIC,
-        ACNODE_GALVANOSTATIC,
-        ACNODE_HYBRID,
-        END_EXPERIMENT_NODE
+typedef enum : unsigned char {
+	DCNODE_OCP, //TODO: add potentiostatic vs galvanostatic distinctions
+    DCNODE_SWEEP,
+    DCNODE_POINT,
+    DCNODE_NORMALPULSE,
+    DCNODE_DIFFPULSE,
+    DCNODE_SQRWAVE,
+    DCNODE_SINEWAVE,
+    ACNODE_POTENTIOSTATIC,
+    ACNODE_GALVANOSTATIC,
+    ACNODE_HYBRID,
+    END_EXPERIMENT_NODE
 }NodeType_t;
 
 typedef enum {AC_GAIN1, AC_GAIN2, AC_GAIN5, AC_GAIN10
@@ -108,7 +109,7 @@ typedef enum {AC_GAIN1, AC_GAIN2, AC_GAIN5, AC_GAIN10
 typedef enum {HF_RANGE, LF_RANGE
 }freq_range_t;
 
-typedef enum{
+typedef enum : unsigned char {
         WAVEGENCLK_25MHZ = 1,
         WAVEGENCLK_12_5MHZ = 2,
         WAVEGENCLK_6_25MHZ = 4,
