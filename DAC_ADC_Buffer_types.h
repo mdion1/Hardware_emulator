@@ -18,7 +18,7 @@ extern "C" {
         int16_t buf[DACBUF_SIZE];
     }DACBuffer_t;
 
-#pragma pack(push, 4)
+#pragma pack(push, 1)
     typedef struct
     {
         uint16_t ref;

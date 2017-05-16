@@ -48,6 +48,7 @@ void Potentiostat::updateDummyStates(uint64_t tNow)
 			ADCdc_data_now.ece = -DCVctrl / 2;
 
 			/* Send transmission */
+      timestamp = tNow;
 			FramedComPacketHeader_t transmission;
 			transmission.channelNum = channelNum;
 			transmission.returnCode = ADCDC_DATA;
