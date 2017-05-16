@@ -24,6 +24,8 @@ extern "C" {
 #define FRAMING_UBYTE 0xFF
 #define FRAMING_LBYTE 0xEE
 #define FRAMING_WORD 0xFFEE
+//#define FRAMING_UBYTE 65
+//#define FRAMING_LBYTE 65
 
 	const uint16_t timeDivFactors[] = {1, 2, 4, 8, 16, 32, 64, 256};
     

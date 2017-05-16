@@ -13,6 +13,7 @@ void * Potentiostat::getExperimentNodesPointer()
 void Potentiostat::runExperiment(uint64_t tNow)
 {
 	experiment.initNode(0, tNow);
+	status = DC_NODE_ACTIVE;
 }
 
 void Potentiostat::init(DACBuffer_t * DACBuf1, DACBuffer_t * DACBuf2, ADCBuffer_t * ADCBuf1, ADCBuffer_t * ADCBuf2)
@@ -25,7 +26,7 @@ void Potentiostat::init(DACBuffer_t * DACBuf1, DACBuffer_t * DACBuf2, ADCBuffer_
 
 InstrStatus_t Potentiostat::initNextNode(uint64_t tNow)
 {
-	return (experiment.initNode(experiment.SeekNextNode(), tNow));
+	return (status = experiment.initNode(experiment.SeekNextNode(), tNow));
 }
 
 void Potentiostat::updateDummyStates(uint64_t tNow)
@@ -56,6 +57,7 @@ void Potentiostat::updateDummyStates(uint64_t tNow)
 			memcpy(&data[4 * 2], (uint8_t *)&currentRange, 1);
 			memcpy(&data[4 * 2 + 1], (uint8_t *)&timestamp, 8);
 			Serial.write((uint8_t *)&transmission, sizeof(transmission));
+      Serial.write(data, sizeof(data));
 		}
 
 		if (ADCdcActiveBuf->dataIndex >= pNode->samplingParams.DACMultiplier)

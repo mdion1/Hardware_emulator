@@ -17,7 +17,8 @@ extern "C" {
         bool isEmpty;
         int16_t buf[DACBUF_SIZE];
     }DACBuffer_t;
-    
+
+#pragma pack(push, 4)
     typedef struct
     {
         uint16_t ref;
@@ -25,6 +26,7 @@ extern "C" {
         uint16_t current;
         uint16_t ece;
     }ADCdc_datastruct_t;
+#pragma pack(pop)
     
     typedef struct
     {
