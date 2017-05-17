@@ -12,12 +12,21 @@ void * Potentiostat::getExperimentNodesPointer()
 
 void Potentiostat::runExperiment(uint64_t tNow)
 {
+	uint16_t i = 0;
+	while (experiment.nodes[i].nodeType != END_EXPERIMENT_NODE)
+	{
+		experiment.nodes[i].numPlays = 0;
+		i++;
+	}
+
+	last_tSample = tNow;
 	experiment.initNode(0, tNow);
 	status = DC_NODE_ACTIVE;
 }
 
 void Potentiostat::init(DACBuffer_t * DACBuf1, DACBuffer_t * DACBuf2, ADCBuffer_t * ADCBuf1, ADCBuffer_t * ADCBuf2)
 {
+  status = IDLE;
 	DACdcActiveBuf = DACBuf1;
 	DACdcInactiveBuf = DACBuf2;
 	ADCdcActiveBuf = ADCBuf1;
@@ -32,15 +41,17 @@ InstrStatus_t Potentiostat::initNextNode(uint64_t tNow)
 void Potentiostat::updateDummyStates(uint64_t tNow)
 {
 	ExperimentNode_t * pNode = &experiment.nodes[experiment.nodeIndex];
-	uint8_t divider = timeDivFactors[pNode->samplingParams.ADCTimerDiv];
-	uint32_t interval = pNode->samplingParams.ADCTimerPeriod * divider / 100;
+	uint16_t divider = timeDivFactors[pNode->samplingParams.ADCTimerDiv];
+	uint32_t interval = pNode->samplingParams.ADCTimerPeriod * divider;
 
-	if (tNow - last_tSample >= interval)
+	if (tNow >= interval + last_tSample)
 	{
+		//Serial.println((unsigned int)tNow); //Serial.print(','); Serial.println((unsigned int)last_tSample);
 		last_tSample += interval;
 		ADCdcActiveBuf->dataIndex++;
 		if (ADCdcActiveBuf->dataIndex >= pNode->samplingParams.ADCBufferSize)
 		{
+			ADCdcActiveBuf->dataIndex = 0;
 			ADCdc_data_now.current = currentFormula(DCVctrl);
 			currentRange = currentRangeFormula(DCVctrl);
 			ADCdc_data_now.ewe = DCVctrl;
@@ -48,7 +59,7 @@ void Potentiostat::updateDummyStates(uint64_t tNow)
 			ADCdc_data_now.ece = -DCVctrl / 2;
 
 			/* Send transmission */
-      timestamp = tNow;
+			timestamp = tNow;
 			FramedComPacketHeader_t transmission;
 			transmission.channelNum = channelNum;
 			transmission.returnCode = ADCDC_DATA;
@@ -58,11 +69,13 @@ void Potentiostat::updateDummyStates(uint64_t tNow)
 			memcpy(&data[4 * 2], (uint8_t *)&currentRange, 1);
 			memcpy(&data[4 * 2 + 1], (uint8_t *)&timestamp, 8);
 			Serial.write((uint8_t *)&transmission, sizeof(transmission));
-      Serial.write(data, sizeof(data));
+			Serial.write(data, sizeof(data));
+			//Serial.println(ADCdc_data_now.ewe);   //debugging
 		}
 
-		if (ADCdcActiveBuf->dataIndex >= pNode->samplingParams.DACMultiplier)
+		if (++ADCdcActiveBuf->DACcounter >= pNode->samplingParams.DACMultiplier)
 		{
+			ADCdcActiveBuf->DACcounter = 0;
 			DCVctrl = updateDummyVCtrl(tNow);
 		}
 	}

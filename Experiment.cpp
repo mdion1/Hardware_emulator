@@ -1,4 +1,5 @@
 #include "Experiment.h"
+#include "Arduino.h"
 
 Experiment_t::Experiment_t() {}
 Experiment_t::Experiment_t(const Experiment_t& orig) {}
@@ -38,7 +39,7 @@ uint16_t Experiment_t::SeekNextNode()
 	ExperimentNode_t * pNode = &nodes[nodeIndex];
 	if (pNode->isTail)
 	{
-		if (++pNode->numPlays >= pNode->MaxPlays)
+		if (++(pNode->numPlays) >= pNode->MaxPlays)
 		{
 			return nodeIndex + 1;
 		}

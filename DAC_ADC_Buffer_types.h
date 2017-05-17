@@ -34,6 +34,7 @@ extern "C" {
     typedef struct
     {
         int16_t dataIndex;
+		int16_t DACcounter;
         int16_t numIgnoredPoints;
         bool isFull;
         bool isActive;

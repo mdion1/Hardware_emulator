@@ -10,14 +10,14 @@ ADCBuffer_t ADCBuf1;
 void setup() {
 	Serial.begin(9600);
 	pstat.init(&DACBuf1, &DACBuf1, &ADCBuf1, &ADCBuf1);
-/*
+
 	ExperimentNode_t exp[3];
 
 	exp[0].isHead = true;
 	exp[0].nodeType = DCNODE_SWEEP;
 	exp[0].tMin = 100000;
 	exp[0].tMax = 10000000000;
-	exp[0].samplingParams.ADCTimerDiv = 7;
+	exp[0].samplingParams.ADCTimerDiv = 2;
 	exp[0].samplingParams.ADCTimerPeriod = 15625;
 	exp[0].samplingParams.ADCBufferSize = 20;
 	exp[0].samplingParams.DACMultiplier = 20;
@@ -25,10 +25,11 @@ void setup() {
 	exp[0].DCSweep.VEnd = 1024;
 	exp[0].DCSweep.dVdt = 1;
 
+	exp[1].isTail = true;
 	exp[1].nodeType = DCNODE_SWEEP;
 	exp[1].tMin = 100000;
 	exp[1].tMax = 100000000;
-	exp[1].samplingParams.ADCTimerDiv = 7;
+	exp[1].samplingParams.ADCTimerDiv = 2;
 	exp[1].samplingParams.ADCTimerPeriod = 15625;
 	exp[1].samplingParams.ADCBufferSize = 20;
 	exp[1].samplingParams.DACMultiplier = 20;
@@ -37,7 +38,7 @@ void setup() {
 	exp[1].DCSweep.dVdt = -1;
 	exp[1].MaxPlays = 3;
 	exp[1].branchHeadIndex = 0;
-*/
+	memcpy((char *)pstat.getExperimentNodesPointer(),(char*)&exp[0], sizeof(ExperimentNode_t)*3);
 }
 
 void loop() {
@@ -74,7 +75,6 @@ void loop() {
 					break;
 				case DOWNLOAD_EXPERIMENT:
 				{
-					//memcpy((char *)pstat.getExperimentNodesPointer(),(char*)&exp[0], sizeof(ExperimentNode_t)*3);
 					Serial.readBytes((char *)pstat.getExperimentNodesPointer(), packet.dataLength);
 					//FunctionToStop();
 				}
@@ -130,5 +130,5 @@ void loop() {
 
 uint64_t getNow()
 {
-	return 100 * (millis() * 1000 + micros() % 1000);
+	return 100 * ((uint64_t)millis() * 1000 + (uint64_t)micros() % 1000);
 }

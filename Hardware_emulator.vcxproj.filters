@@ -53,6 +53,9 @@
     <ClCompile Include="Potentiostat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Hardware_emulator_cpp\Hardware_emulator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Hardware_emulator.rc">
