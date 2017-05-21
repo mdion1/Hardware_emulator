@@ -120,6 +120,7 @@ void loop() {
 				FramedComPacketHeader_t transmission;
 				transmission.channelNum = pstat.channelNum;
 				transmission.returnCode = EXPERIMENT_COMPLETE;
+				transmission.dataLength = 0;
 				Serial.write((char *)&transmission, sizeof(transmission));
 			}
 		}
