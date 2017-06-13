@@ -112,6 +112,9 @@
   <ItemGroup>
     <ResourceCompile Include="Hardware_emulator.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="TODOs and notes.txt" />
+  </ItemGroup>
   <PropertyGroup>
     <DebuggerFlavor>VisualMicroDebugger</DebuggerFlavor>
   </PropertyGroup>
